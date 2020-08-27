@@ -12,8 +12,6 @@ namespace dbcnet
 
         public ulong FDBaudRate { get; set; }
 
-        public IList<Signal> Signals { get; set; } = new List<Signal>();
-
         public IList<Message> Messages { get; set; } = new List<Message>();
 
         public IList<Node> Nodes { get; set; } = new List<Node>();
