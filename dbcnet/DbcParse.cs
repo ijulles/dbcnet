@@ -126,8 +126,9 @@ namespace dbcnet
                                 //TODO: 读取接收者
 
                                 msg.Signals.Add(sig);
+                                i++;
                                 lineWords = lines[i + 1].Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);  //忽略空字符
-                                if (lineWords.Length > 0 && lineWords[0] == sigstr) i++;
+                                if (lineWords.Length <= 0 && lineWords[0] != sigstr) i--;
                             }
                             break;
 
@@ -207,7 +208,11 @@ namespace dbcnet
                             break;
                         case busstr:
                             if (lineWords.Length > 1)
-                                cluster.BaudRate = ulong.Parse(lineWords[1]);
+                            if(lineWords[1] == ":")
+                            {
+                                cluster.BaudRate = ulong.Parse(lineWords[2]);
+                            }
+
                             break;
                     }
                 }

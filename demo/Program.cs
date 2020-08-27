@@ -8,7 +8,7 @@ namespace demo
         static void Main(string[] args)
         {
             Console.WriteLine("Hello World!");
-            var dbc = new DbcParse(@"E:\WorkSpace\VS\dbcnet\docs\DBC_template.dbc");
+            var dbc = new DbcParse(@"E:\WorkSpace\VS\dbcnet\docs\nidbc.dbc");
             //var dbc = new DbcParse(@"C:\Users\julles\Desktop\test\CharCon_B1_OBC_DCDC_Hybrid_DBC_V1.1.dbc");
             dbc.Parse();
         }
