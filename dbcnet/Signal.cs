@@ -6,8 +6,6 @@ namespace dbcnet
     {
         public string Name { get; set; }
 
-        public string UniqueName { get; set; }
-
         public ByteOrder ByteOrder { get; set; }
 
         public DataType DataType { get; set; }

@@ -9,7 +9,7 @@ namespace dbcnet
 
         public uint Identifier { get; set; }
 
-        public IList<Signal> Signals { get; set; }
+        public IList<Signal> Signals { get; set; } = new List<Signal>();
 
         public string Comment { get; set; }
 
