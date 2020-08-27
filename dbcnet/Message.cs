@@ -21,16 +21,7 @@ namespace dbcnet
 
         public double CANTxTime { get; set; }
 
-        public CANIoMode CANIoMode { get; set; }
-
         public override string ToString() => Name;
-    }
-
-    public enum CANIoMode : uint
-    {
-        CAN,
-        CANFD,
-        CANFDBRS
     }
 
     public enum  CANTimingType : uint

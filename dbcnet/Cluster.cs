@@ -16,8 +16,16 @@ namespace dbcnet
 
         public IList<Node> Nodes { get; set; } = new List<Node>();
 
+        public IoMode IoMode { get; set; }
+
         public string Comment { get; set; }
 
         public override string ToString() => Name;
+    }
+
+    public enum IoMode : uint
+    {
+        CAN,
+        CANFD
     }
 }

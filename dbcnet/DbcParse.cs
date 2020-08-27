@@ -168,11 +168,21 @@ namespace dbcnet
                         case attstr:
                             switch (lineWords[1])
                             {
-                                case "GenMsgCycleTime":
+                                case "\"GenMsgCycleTime\"":
+                                    if (lineWords[2] == msgstr)
+                                    {
+                                        var id = uint.Parse(lineWords[3]);
+                                        var ped = double.Parse(lineWords[4].Substring(0, lineWords[4].IndexOf(';')));
+                                        cluster.Messages.First(m => m.Identifier == id).CANTxTime = ped / 1000;
+                                    }
                                     break;
-                                case "GenMsgPeriod":
-                                    break;
-                                case "BusType":
+                                case "\"GenMsgPeriod\"":
+                                    if(lineWords[2] == msgstr)
+                                    {
+                                        var id = uint.Parse(lineWords[3]);
+                                        var ped = double.Parse(lineWords[4].Substring(0,lineWords[4].IndexOf(';')));
+                                        cluster.Messages.First(m => m.Identifier == id).CANTxTime = ped / 1000;
+                                    }
                                     break;
                                 default:
                                     break;
@@ -181,12 +191,23 @@ namespace dbcnet
                         case attdefstr:
                             break;
                         case attdftstr:
+                            switch (lineWords[1])
+                            {
+                                case "\"BusType\"":
+                                    if (lineWords[2] == "\"CAN\"")
+                                        cluster.IoMode = IoMode.CAN;
+                                    else if (lineWords[2] == "\"CAN FD\"")
+                                        cluster.IoMode = IoMode.CANFD;
+                                    break;
+                            }
                             break;
                         case valstr:
                             break;
                         case valtabstr:
                             break;
                         case busstr:
+                            if (lineWords.Length > 1)
+                                cluster.BaudRate = ulong.Parse(lineWords[1]);
                             break;
                     }
                 }
