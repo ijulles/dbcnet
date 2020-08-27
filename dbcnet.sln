@@ -3,7 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.30320.27
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "dbcnet", "dbcnet\dbcnet.csproj", "{4DA2DBEF-FD4E-4958-9FEE-7A573E850966}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "dbcnet", "dbcnet\dbcnet.csproj", "{4DA2DBEF-FD4E-4958-9FEE-7A573E850966}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "demo", "demo\demo.csproj", "{16B2FEE2-254E-4688-91AB-E3789EA71065}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +17,10 @@ Global
 		{4DA2DBEF-FD4E-4958-9FEE-7A573E850966}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4DA2DBEF-FD4E-4958-9FEE-7A573E850966}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4DA2DBEF-FD4E-4958-9FEE-7A573E850966}.Release|Any CPU.Build.0 = Release|Any CPU
+		{16B2FEE2-254E-4688-91AB-E3789EA71065}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{16B2FEE2-254E-4688-91AB-E3789EA71065}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{16B2FEE2-254E-4688-91AB-E3789EA71065}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{16B2FEE2-254E-4688-91AB-E3789EA71065}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -6,12 +6,14 @@ namespace dbcnet
 {
     public class Node
     {
-        public string Name { get; }
+        public string Name { get; set; }
 
-        public IList<Message> MessagesReceived { get; }
+        public IList<Message> MessagesReceived { get; set; }
 
-        public IList<Message> MessagesTansmitted { get; }
+        public IList<Message> MessagesTansmitted { get; set; }
 
-        public string Comment { get; }
+        public string Comment { get; set; }
+
+        public override string ToString() => Name;
     }
 }

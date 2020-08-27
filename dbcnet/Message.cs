@@ -5,21 +5,25 @@ namespace dbcnet
 {
     public class Message
     {
-        public string Name { get; }
+        public string Name { get; set; }
 
-        public uint Identifier { get; }
+        public uint Identifier { get; set; }
 
-        public IList<Signal> Signals { get; }
+        public IList<Signal> Signals { get; set; }
 
-        public string Comment { get; }
+        public string Comment { get; set; }
 
-        public bool CANExtID { get; }
+        public bool CANExtID { get; set; }
 
-        public CANTimingType CANTimingType { get; }
+        public uint Length { get; set; }
 
-        public double CANTxTime { get; }
+        public CANTimingType CANTimingType { get; set; }
 
-        public CANIoMode CANIoMode { get; }
+        public double CANTxTime { get; set; }
+
+        public CANIoMode CANIoMode { get; set; }
+
+        public override string ToString() => Name;
     }
 
     public enum CANIoMode : uint

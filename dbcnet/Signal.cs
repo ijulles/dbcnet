@@ -4,32 +4,33 @@ namespace dbcnet
 {
     public class Signal
     {
-        public string Name { get; }
+        public string Name { get; set; }
 
-        public string UniqueName { get; }
+        public string UniqueName { get; set; }
 
-        public ByteOrder ByteOrder { get; }
+        public ByteOrder ByteOrder { get; set; }
 
-        public DataType DataType { get; }
+        public DataType DataType { get; set; }
 
-        public double DefaultValue { get; }
+        public double DefaultValue { get; set; }
 
-        public double MaximumValue { get; }
+        public double MaximumValue { get; set; }
 
-        public double MinimumValue { get; }
+        public double MinimumValue { get; set; }
 
-        public uint StartBit { get; }
+        public uint StartBit { get; set; }
 
-        public uint NumberOfBits { get; }
+        public uint NumberOfBits { get; set; }
 
-        public double ScalingFactor { get; }
+        public double ScalingFactor { get; set; }
 
-        public double ScalingOffset { get; }
+        public double ScalingOffset { get; set; }
 
-        public string Unit { get; }
+        public string Unit { get; set; }
 
-        public string Comment { get; }
+        public string Comment { get; set; }
 
+        public override string ToString() => Name;
     }
 
     public enum ByteOrder : uint
