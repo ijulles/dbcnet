@@ -1,0 +1,100 @@
+VERSION ""
+
+NS_ :
+  NS_DESC_
+  CM_
+  BA_DEF_
+  BA_
+  VAL_
+  CAT_DEF_
+  CAT_
+  FILTER
+  BA_DEF_DEF_
+  EV_DATA_
+  ENVVAR_DATA_
+  SGTYPE_
+  SGTYPE_VAL_
+  BA_DEF_SGTYPE_
+  BA_SGTYPE_
+  SIG_TYPE_REF_
+  VAL_TABLE_
+  SIG_GROUP_
+  SIG_VALTYPE_
+  SIGTYPE_VALTYPE_
+  BO_TX_BU_
+  BA_DEF_REL_
+  BA_REL_
+  BA_DEF_DEF_REL_
+  BU_SG_REL_
+  BU_EV_REL_
+  BU_BO_REL_
+  SG_MUL_VAL_
+
+BS_ :
+
+BU_ : __NEW__7 __NEW__8
+
+BO_ 0 msg0: 8 Vector__XXX
+  SG_ sig0 : 0|32@1+ (0.010000000000000000208,1111) [0|1000] "" Vector__XXX
+  SG_ sig1 : 39|32@0- (44,44) [0|1000] "A" Vector__XXX
+
+BO_ 2147607104 msg1: 8 Vector__XXX
+  SG_ sig2 m1 : 0|1@1+ (1,0) [0|0] "" Vector__XXX
+  SG_ sig3 M : 1|1@1+ (1,0) [0|4294967295] "" Vector__XXX
+
+BO_ 1234 msg2: 8 Vector__XXX
+
+BO_ 2047 msg3: 8 Vector__XXX
+
+BO_ 444 msg4: 8 Vector__XXX
+
+BO_ 2047 msg5: 8 Vector__XXX
+
+BO_ 2159915962 msg6: 8 Vector__XXX
+
+BO_ 222 msg7: 64 Vector__XXX
+
+BA_DEF_ "DBName" STRING;
+BA_DEF_ "BusType" STRING;
+BA_DEF_ BO_ "CANFD_BRS" ENUM "0","1";
+BA_DEF_ BO_ "VFrameFormat" ENUM "StandardCAN","ExtendedCAN","reserved","J1939PG","reserved","reserved","reserved","reserved","reserved","reserved","reserved","reserved","reserved","reserved","StandardCAN_FD","ExtendedCAN_FD";
+BA_DEF_ BO_ "GenMsgSendType" ENUM "Cyclic","Event","CyclicIfActive","SpontanWithDelay","CyclicAndSpontan","CyclicAndSpontanWithDelay";
+BA_DEF_ BO_ "GenMsgCycleTime" INT 0 0;
+BA_DEF_ BO_ "GenMsgDelayTime" INT 0 0;
+BA_DEF_ SG_ "GenSigStartValue" FLOAT 0 0;
+BA_DEF_DEF_ "DBName" "testdbc";
+BA_DEF_DEF_ "BusType" "CAN FD";
+BA_DEF_DEF_ "CANFD_BRS" "1";
+BA_DEF_DEF_ "VFrameFormat" "StandardCAN";
+BA_DEF_DEF_ "GenMsgSendType" "Cyclic";
+BA_DEF_DEF_ "GenMsgCycleTime" 0;
+BA_DEF_DEF_ "GenMsgDelayTime" 0;
+BA_DEF_DEF_ "GenSigStartValue" 0;
+BA_ "VFrameFormat" BO_ 0 14;
+BA_ "GenMsgSendType" BO_ 0 0;
+BA_ "GenMsgCycleTime" BO_ 0 100;
+BA_ "VFrameFormat" BO_ 2147607104 15;
+BA_ "GenMsgSendType" BO_ 2147607104 0;
+BA_ "GenMsgCycleTime" BO_ 2147607104 10;
+BA_ "VFrameFormat" BO_ 1234 14;
+BA_ "GenMsgSendType" BO_ 1234 0;
+BA_ "GenMsgCycleTime" BO_ 1234 100;
+BA_ "VFrameFormat" BO_ 2047 14;
+BA_ "GenMsgSendType" BO_ 2047 0;
+BA_ "GenMsgCycleTime" BO_ 2047 100;
+BA_ "VFrameFormat" BO_ 444 14;
+BA_ "GenMsgSendType" BO_ 444 0;
+BA_ "GenMsgCycleTime" BO_ 444 100;
+BA_ "VFrameFormat" BO_ 2047 14;
+BA_ "GenMsgSendType" BO_ 2047 0;
+BA_ "GenMsgCycleTime" BO_ 2047 100;
+BA_ "VFrameFormat" BO_ 2159915962 15;
+BA_ "GenMsgSendType" BO_ 2159915962 0;
+BA_ "GenMsgCycleTime" BO_ 2159915962 100;
+BA_ "VFrameFormat" BO_ 222 14;
+BA_ "GenMsgSendType" BO_ 222 0;
+BA_ "GenMsgCycleTime" BO_ 222 500;
+BA_ "CANFD_BRS" BO_ 222 0;
+BA_ "GenSigStartValue" SG_ 0 sig0 -111100;
+BA_ "GenSigStartValue" SG_ 0 sig1 0.25;
+SIG_VALTYPE_ 0 sig0 : 1;
