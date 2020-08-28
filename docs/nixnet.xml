@@ -186,6 +186,7 @@
     <fx:ECUS>
       <fx:ECU ID="ecu1">
         <ho:SHORT-NAME>__NEW__7</ho:SHORT-NAME>
+        <ho:DESC></ho:DESC>
         <fx:CONTROLLERS>
           <fx:CONTROLLER ID="ctrl1">
             <ho:SHORT-NAME>Controller1</ho:SHORT-NAME>
@@ -200,6 +201,7 @@
       </fx:ECU>
       <fx:ECU ID="ecu2">
         <ho:SHORT-NAME>__NEW__8</ho:SHORT-NAME>
+        <ho:DESC></ho:DESC>
         <fx:CONTROLLERS>
           <fx:CONTROLLER ID="ctrl2">
             <ho:SHORT-NAME>Controller2</ho:SHORT-NAME>
@@ -226,7 +228,7 @@
             <fx:SIGNAL-REF ID-REF="sig1"/>
           </fx:SIGNAL-INSTANCE>
           <fx:SIGNAL-INSTANCE ID="sgi2">
-            <fx:BIT-POSITION>39</fx:BIT-POSITION>
+            <fx:BIT-POSITION>58</fx:BIT-POSITION>
             <fx:IS-HIGH-LOW-BYTE-ORDER>true</fx:IS-HIGH-LOW-BYTE-ORDER>
             <fx:SIGNAL-REF ID-REF="sig2"/>
           </fx:SIGNAL-INSTANCE>
@@ -238,14 +240,14 @@
         <fx:BYTE-LENGTH>8</fx:BYTE-LENGTH>
         <fx:PDU-TYPE>APPLICATION</fx:PDU-TYPE>
         <fx:MULTIPLEXER>
-          <fx:SWITCH ID="swi4">
+          <fx:SWITCH ID="swi3">
               <ho:SHORT-NAME>sig3</ho:SHORT-NAME>
               <ho:DESC></ho:DESC>
               <fx:BIT-POSITION>1</fx:BIT-POSITION>
               <fx:IS-HIGH-LOW-BYTE-ORDER>false</fx:IS-HIGH-LOW-BYTE-ORDER>
               <ho:BIT-LENGTH>1</ho:BIT-LENGTH>
           </fx:SWITCH>
-          <fx:DYNAMIC-PART ID="xdp4">
+          <fx:DYNAMIC-PART ID="xdp3">
             <ho:SHORT-NAME>msg1_pdu</ho:SHORT-NAME>
             <fx:SEGMENT-POSITIONS>
               <fx:SEGMENT-POSITION>
@@ -404,8 +406,8 @@
       </fx:CODING>
       <fx:CODING ID="cod2">
         <ho:SHORT-NAME>cod2</ho:SHORT-NAME>
-        <ho:CODED-TYPE ho:BASE-DATA-TYPE="A_INT32" CATEGORY="STANDARD-LENGTH-TYPE" ENCODING="SIGNED">
-          <ho:BIT-LENGTH>32</ho:BIT-LENGTH>
+        <ho:CODED-TYPE ho:BASE-DATA-TYPE="A_UINT8" CATEGORY="STANDARD-LENGTH-TYPE" ENCODING="UNSIGNED">
+          <ho:BIT-LENGTH>3</ho:BIT-LENGTH>
         </ho:CODED-TYPE>
         <ho:COMPU-METHODS>
           <ho:COMPU-METHOD>

@@ -16,9 +16,9 @@ namespace dbcnet
 
         public double MinimumValue { get; set; }
 
-        public uint StartBit { get; set; }
+        public int StartBit { get; set; }
 
-        public uint NumberOfBits { get; set; }
+        public int NumberOfBits { get; set; }
 
         public double ScalingFactor { get; set; }
 
@@ -33,8 +33,8 @@ namespace dbcnet
 
     public enum ByteOrder : uint
     {
-        LittleEndian,
-        BigEndian
+        BigEndian,
+        LittleEndian
     }
 
     public enum DataType : uint

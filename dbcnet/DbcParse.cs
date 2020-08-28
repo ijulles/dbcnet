@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 
@@ -25,13 +26,13 @@ namespace dbcnet
             this.fileName = fileName;
         }
 
-        public Cluster Parse()
+        public static Cluster Parse(string fileName)
         {
             var fs = new FileStream(fileName, FileMode.Open, FileAccess.Read, FileShare.ReadWrite);
             var sr = new StreamReader(fs);
-
-
             var lines = sr.ReadToEnd().Split(new[] { '\n' }, StringSplitOptions.RemoveEmptyEntries);
+            sr.Close();
+            fs.Close();
 
             var cluster = new Cluster();
             //便利字符串数组,读取需要的信息
@@ -86,9 +87,13 @@ namespace dbcnet
                                 var sp = lineWords[3 + offset].Split(new[] { '|', '@' }, StringSplitOptions.RemoveEmptyEntries);
                                 if (sp.Length == 3)
                                 {
-                                    sig.StartBit = uint.Parse(sp[0]);
-                                    sig.NumberOfBits = uint.Parse(sp[1]);
+                                    sig.StartBit = int.Parse(sp[0]);
+                                    sig.NumberOfBits = int.Parse(sp[1]);
                                     sig.ByteOrder = (ByteOrder)uint.Parse(sp[2].Remove(sp[2].Length - 1));
+                                    if(sig.ByteOrder == ByteOrder.BigEndian)
+                                    {
+                                        sig.StartBit = CalTrueStartBit(sig.StartBit,sig.NumberOfBits);
+                                    }
                                     if (sp[2][sp[2].Length - 1] == '+')
                                         sig.DataType = DataType.Unsigned;
                                     else
@@ -221,10 +226,28 @@ namespace dbcnet
                     //忽略为空的值
                 }
             }
+            //转换扩展帧,最后转换是因为可能上面会根据ID查找消息,先转换可能会找不到。
+            foreach (var msg in cluster.Messages)
+            {
+                if (msg.Identifier > 0x80000000)
+                {
+                    msg.Identifier -= 0x80000000;
+                    msg.CANExtID = true;
+                }
+            }
+            cluster.Messages = cluster.Messages.OrderBy(m => m.Identifier).ToList();
+            return cluster;
+        }
 
-            sr.Close();
-            fs.Close();
-            return null;
+        private static int CalTrueStartBit(int startBit, int numberOfBits)
+        {
+            while (startBit % 8 - numberOfBits < -1)
+            {
+                startBit += 8;
+                numberOfBits -= 8;
+            }
+            startBit = startBit - numberOfBits + 1;
+            return startBit;
         }
     }
 }
