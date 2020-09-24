@@ -11,20 +11,13 @@ namespace dbcnet
         private const string sigstr = "SG_";                //Signal definition.    SG_ <SignalName> [M|m<MultiplexerIdentifier>] : <StartBit>|<Length>@<Endianness><Signed> (<Factor>,<Offset>) [<Min>|<Max>] "[Unit]" [ReceivingNodes]
         private const string desstr = "CM_";                //Description field.    CM_ [<BU_|BO_|SG_> [CAN-ID] [SignalName]] "<DescriptionText>";
         private const string busstr = "BS_";                //Bus configuration.    BS_: <Speed>
-        private const string nodesstr = "BU_";              //List of all CAN-Nodes, seperated by whitespaces.
+        private const string nodesstr = "BU_:";              //List of all CAN-Nodes, seperated by whitespaces.  BU_ X1 X2
+        private const string nodestr = "BU_";               //
         private const string attdefstr = "BA_DEF_";         //Attribute definition.     BA_DEF_ [BU_|BO_|SG_] "<AttributeName>" <DataType> [Config];
         private const string attdftstr = "BA_DEF_DEF_";     //Attribute default value   BA_DEF_DEF_ "<AttributeName>" ["]<DefaultValue>["];
         private const string attstr = "BA_";                //Attribute                 BA_ "<AttributeName>" [BU_|BO_|SG_] [Node|CAN-ID] [SignalName] <AttributeValue>;
         private const string valstr = "VAL_";               //Value definitions for signals.        VAL_ <CAN-ID> <SignalsName> <ValTableName|ValTableDefinition>;
         private const string valtabstr = "VAL_TABLE_";      //Value table definition for signals.   VAL_TABLE_ <ValueTableName> <ValueTableDefinition>;
-
-
-        private string fileName;
-
-        public DbcParse(string fileName)
-        {
-            this.fileName = fileName;
-        }
 
         public static Cluster Parse(string fileName)
         {
@@ -47,7 +40,7 @@ namespace dbcnet
                     //BO_ <CAN-ID> <MessageName>: <MessageLength> <SendingNode>
                     switch (lineWords[0])
                     {
-                        case msgstr:
+                        case msgstr:    //Message definition.
                             var msg = new Message
                             {
                                 Identifier = uint.Parse(lineWords[1]),
@@ -72,7 +65,7 @@ namespace dbcnet
                             //SG_ Signal0 : 0|32@1- (1,0) [0|0] "" Node1 Node2
                             //SG_ <SignalName> [M|m<MultiplexerIdentifier>] : <StartBit>|<Length>@<Endianness><Signed> (<Factor>,<Offset>) [<Min>|<Max>] "[Unit]" [ReceivingNodes]
                             lineWords = lines[i + 1].Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);  //忽略空字符
-                            while (lineWords.Length > 0 && lineWords[0] == sigstr)
+                            while (lineWords.Length > 0 && lineWords[0] == sigstr)  //Signal definition.
                             {
                                 var sig = new Signal
                                 {
@@ -128,7 +121,10 @@ namespace dbcnet
                                 var unit = lineWords[6 + offset];
                                 sig.Unit = unit.Substring(1, unit.Length - 2);
 
-                                //TODO: 读取接收者
+                                var rcvNode = cluster.Nodes.FirstOrDefault(n => n.Name == lineWords[7 + offset].Trim());
+                                if (rcvNode != null && !rcvNode.MessagesReceived.Contains(msg))
+                                    rcvNode.MessagesReceived.Add(msg);
+
 
                                 msg.Signals.Add(sig);
                                 i++;
@@ -137,7 +133,7 @@ namespace dbcnet
                             }
                             break;
 
-                        case desstr:
+                        case desstr:    //Description field.
                             if (lineWords[1] == sigstr)
                             {
                                 var id = uint.Parse(lineWords[2]);
@@ -159,7 +155,7 @@ namespace dbcnet
                                 comment = line.Substring(line.IndexOf('\"') + 1, line.LastIndexOf('\"') - line.IndexOf('\"') - 1);
                                 cluster.Messages.First(m => m.Identifier == id).Comment = comment;
                             }
-                            else if (lineWords[1] == nodesstr)
+                            else if (lineWords[1] == nodestr)
                             {
                                 nodeName = lineWords[2];
                                 var comment = "";
@@ -217,7 +213,24 @@ namespace dbcnet
                             {
                                 cluster.BaudRate = ulong.Parse(lineWords[2]);
                             }
-
+                            break;
+                        case nodesstr:
+                            if(lineWords.Length >1)
+                            {
+                                for (int j = 1; j < lineWords.Length - 1 ; j++)
+                                {
+                                    var nodeName1 = lineWords[j];
+                                    var node1 = cluster.Nodes.FirstOrDefault(n => n.Name == nodeName1);
+                                    if (node1 == null)
+                                    {
+                                        node1 = new Node()
+                                        {
+                                            Name = nodeName1
+                                        };
+                                        cluster.Nodes.Add(node1);
+                                    }
+                                }
+                            }
                             break;
                     }
                 }
