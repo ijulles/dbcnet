@@ -151,7 +151,7 @@
             <fx:FRAME-REF ID-REF="frm7"/>
             <fx:MANUFACTURER-EXTENSION>
               <ni:NI-XNET-EXTENSION>
-                <ni:CAN-FD-MODE>2</ni:CAN-FD-MODE>
+                <ni:CAN-FD-MODE>0</ni:CAN-FD-MODE>
                 <fx:TIMINGS>
                   <fx:CYCLIC-TIMING>
                     <fx:REPEATING-TIME-RANGE>

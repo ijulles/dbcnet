@@ -26,6 +26,7 @@ namespace dbcnet
     public enum IoMode : uint
     {
         CAN,
-        CANFD
+        CANFD,
+        CANFDBRS
     }
 }

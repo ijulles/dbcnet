@@ -29,6 +29,7 @@ namespace dbcnet
 
             var cluster = new Cluster();
             var strtable = new Dictionary<string,string>();
+            var frameFormat = new List<string>();
 
             //便利字符串数组,读取需要的信息
             for (int i = 0; i < lines.Length; i++)
@@ -188,11 +189,58 @@ namespace dbcnet
                                         cluster.Messages.First(m => m.Identifier == id).CANTxTime = ped / 1000;
                                     }
                                     break;
+                                case "\"VFrameFormat\"":
+                                    if(lineWords[2] == STRMSG)
+                                    {
+                                        //BA_ "VFrameFormat" BO_ 0 14;
+                                        var id = uint.Parse(lineWords[3]);
+                                        var msg1 = cluster.Messages.FirstOrDefault(m => m.Identifier == id);
+                                        if(msg1 != null)
+                                        {
+                                            switch (frameFormat[int.Parse(Substring(lineWords[4]))])
+                                            {
+                                                case "\"StandardCAN\"" :
+                                                    msg1.IoMode = IoMode.CAN;
+                                                    msg1.CANExtID = false;
+                                                    break;
+                                                case "\"ExtendedCAN\"" :
+                                                    msg1.IoMode = IoMode.CAN;
+                                                    msg1.CANExtID = true;
+                                                    break;
+                                                case "\"StandardCAN_FD\"" :
+                                                    msg1.IoMode = IoMode.CANFD;
+                                                    msg1.CANExtID = false;
+                                                    break;
+                                                case "\"ExtendedCAN_FD\"" :
+                                                    msg1.IoMode = IoMode.CANFD;
+                                                    msg1.CANExtID = true;
+                                                    break;
+                                            }
+                                        }
+                                    }
+                                    break;
                                 default:
                                     break;
                             }
                             break;
                         case STRATTDEF:
+                            switch(lineWords[1])
+                            {
+                                case STRMSG :
+                                    if(lineWords[2] == "\"VFrameFormat\"")
+                                    {
+                                        //BA_DEF_ BO_  "VFrameFormat" ENUM  "StandardCAN","ExtendedCAN","reserved","reserved","reserved","reserved","reserved","reserved","reserved","reserved","reserved","reserved","reserved","reserved","StandardCAN_FD","ExtendedCAN_FD";
+                                        frameFormat.AddRange(lineWords[4].Split(','));
+                                        var index = frameFormat[frameFormat.Count - 1].IndexOf(';');
+                                        if(index >= 0)
+                                        {
+                                            frameFormat[frameFormat.Count - 1] = frameFormat[frameFormat.Count - 1].Substring(0,index);
+                                        }
+                                    }
+                                    break;
+                                default:
+                                    break;
+                            }
                             break;
                         case STRATTDFT:
                             switch (lineWords[1])
@@ -291,6 +339,12 @@ namespace dbcnet
             }
             startBit = startBit - numberOfBits + 1;
             return startBit;
+        }
+
+        private static string Substring(string str,char endchar = ';')
+        {
+            var index = str.IndexOf(endchar);
+            return index >= 0 ? str.Substring(0,index) : str;
         }
     }
 }

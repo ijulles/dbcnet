@@ -11,6 +11,8 @@ namespace dbcnet
 
         public IList<Signal> Signals { get; set; } = new List<Signal>();
 
+        public IoMode IoMode{ get; set; }
+
         public string Comment { get; set; }
 
         public bool CANExtID { get; set; }
