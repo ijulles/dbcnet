@@ -7,17 +7,17 @@ namespace dbcnet
 {
     public class DbcParse
     {
-        private const string msgstr = "BO_";                //Message definition.   BO_ <CAN-ID> <MessageName>: <MessageLength> <SendingNode>
-        private const string sigstr = "SG_";                //Signal definition.    SG_ <SignalName> [M|m<MultiplexerIdentifier>] : <StartBit>|<Length>@<Endianness><Signed> (<Factor>,<Offset>) [<Min>|<Max>] "[Unit]" [ReceivingNodes]
-        private const string desstr = "CM_";                //Description field.    CM_ [<BU_|BO_|SG_> [CAN-ID] [SignalName]] "<DescriptionText>";
-        private const string busstr = "BS_";                //Bus configuration.    BS_: <Speed>
-        private const string nodesstr = "BU_:";              //List of all CAN-Nodes, seperated by whitespaces.  BU_ X1 X2
-        private const string nodestr = "BU_";               //
-        private const string attdefstr = "BA_DEF_";         //Attribute definition.     BA_DEF_ [BU_|BO_|SG_] "<AttributeName>" <DataType> [Config];
-        private const string attdftstr = "BA_DEF_DEF_";     //Attribute default value   BA_DEF_DEF_ "<AttributeName>" ["]<DefaultValue>["];
-        private const string attstr = "BA_";                //Attribute                 BA_ "<AttributeName>" [BU_|BO_|SG_] [Node|CAN-ID] [SignalName] <AttributeValue>;
-        private const string valstr = "VAL_";               //Value definitions for signals.        VAL_ <CAN-ID> <SignalsName> <ValTableName|ValTableDefinition>;
-        private const string valtabstr = "VAL_TABLE_";      //Value table definition for signals.   VAL_TABLE_ <ValueTableName> <ValueTableDefinition>;
+        private const string STRMSG = "BO_";                //Message definition.   BO_ <CAN-ID> <MessageName>: <MessageLength> <SendingNode>
+        private const string STRSIG = "SG_";                //Signal definition.    SG_ <SignalName> [M|m<MultiplexerIdentifier>] : <StartBit>|<Length>@<Endianness><Signed> (<Factor>,<Offset>) [<Min>|<Max>] "[Unit]" [ReceivingNodes]
+        private const string STRDES = "CM_";                //Description field.    CM_ [<BU_|BO_|SG_> [CAN-ID] [SignalName]] "<DescriptionText>";
+        private const string STRBUS = "BS_";                //Bus configuration.    BS_: <Speed>
+        private const string STRNODES = "BU_:";              //List of all CAN-Nodes, seperated by whitespaces.  BU_ X1 X2
+        private const string STRNODE = "BU_";               //
+        private const string STRATTDEF = "BA_DEF_";         //Attribute definition.     BA_DEF_ [BU_|BO_|SG_] "<AttributeName>" <DataType> [Config];
+        private const string STRATTDFT = "BA_DEF_DEF_";     //Attribute default value   BA_DEF_DEF_ "<AttributeName>" ["]<DefaultValue>["];
+        private const string STRATT = "BA_";                //Attribute                 BA_ "<AttributeName>" [BU_|BO_|SG_] [Node|CAN-ID] [SignalName] <AttributeValue>;
+        private const string STRVAL = "VAL_";               //Value definitions for signals.        VAL_ <CAN-ID> <SignalsName> <ValTableName|ValTableDefinition>;
+        private const string STRVALTAB = "VAL_TABLE_";      //Value table definition for signals.   VAL_TABLE_ <ValueTableName> <ValueTableDefinition>;
 
         public static Cluster Parse(string fileName)
         {
@@ -28,6 +28,8 @@ namespace dbcnet
             fs.Close();
 
             var cluster = new Cluster();
+            var strtable = new Dictionary<string,string>();
+
             //便利字符串数组,读取需要的信息
             for (int i = 0; i < lines.Length; i++)
             {
@@ -40,7 +42,7 @@ namespace dbcnet
                     //BO_ <CAN-ID> <MessageName>: <MessageLength> <SendingNode>
                     switch (lineWords[0])
                     {
-                        case msgstr:    //Message definition.
+                        case STRMSG:    //Message definition.
                             var msg = new Message
                             {
                                 Identifier = uint.Parse(lineWords[1]),
@@ -65,7 +67,7 @@ namespace dbcnet
                             //SG_ Signal0 : 0|32@1- (1,0) [0|0] "" Node1 Node2
                             //SG_ <SignalName> [M|m<MultiplexerIdentifier>] : <StartBit>|<Length>@<Endianness><Signed> (<Factor>,<Offset>) [<Min>|<Max>] "[Unit]" [ReceivingNodes]
                             lineWords = lines[i + 1].Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);  //忽略空字符
-                            while (lineWords.Length > 0 && lineWords[0] == sigstr)  //Signal definition.
+                            while (lineWords.Length > 0 && lineWords[0] == STRSIG)  //Signal definition.
                             {
                                 var sig = new Signal
                                 {
@@ -129,12 +131,12 @@ namespace dbcnet
                                 msg.Signals.Add(sig);
                                 i++;
                                 lineWords = lines[i + 1].Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);  //忽略空字符
-                                if (lineWords.Length <= 0 && lineWords[0] != sigstr) i--;
+                                if (lineWords.Length <= 0 && lineWords[0] != STRSIG) i--;
                             }
                             break;
 
-                        case desstr:    //Description field.
-                            if (lineWords[1] == sigstr)
+                        case STRDES:    //Description field.
+                            if (lineWords[1] == STRSIG)
                             {
                                 var id = uint.Parse(lineWords[2]);
                                 var name = lineWords[3];
@@ -145,7 +147,7 @@ namespace dbcnet
                                 comment = line.Substring(line.IndexOf('\"') + 1, line.LastIndexOf('\"') - line.IndexOf('\"') - 1);
                                 cluster.Messages.First(m => m.Identifier == id).Signals.First(s => s.Name == name).Comment = comment;
                             }
-                            else if (lineWords[1] == msgstr)
+                            else if (lineWords[1] == STRMSG)
                             {
                                 var id = uint.Parse(lineWords[2]);
                                 var comment = "";
@@ -155,7 +157,7 @@ namespace dbcnet
                                 comment = line.Substring(line.IndexOf('\"') + 1, line.LastIndexOf('\"') - line.IndexOf('\"') - 1);
                                 cluster.Messages.First(m => m.Identifier == id).Comment = comment;
                             }
-                            else if (lineWords[1] == nodestr)
+                            else if (lineWords[1] == STRNODE)
                             {
                                 nodeName = lineWords[2];
                                 var comment = "";
@@ -167,11 +169,11 @@ namespace dbcnet
                             }
                             break;
 
-                        case attstr:
+                        case STRATT:
                             switch (lineWords[1])
                             {
                                 case "\"GenMsgCycleTime\"":
-                                    if (lineWords[2] == msgstr)
+                                    if (lineWords[2] == STRMSG)
                                     {
                                         var id = uint.Parse(lineWords[3]);
                                         var ped = double.Parse(lineWords[4].Substring(0, lineWords[4].IndexOf(';')));
@@ -179,7 +181,7 @@ namespace dbcnet
                                     }
                                     break;
                                 case "\"GenMsgPeriod\"":
-                                    if(lineWords[2] == msgstr)
+                                    if(lineWords[2] == STRMSG)
                                     {
                                         var id = uint.Parse(lineWords[3]);
                                         var ped = double.Parse(lineWords[4].Substring(0,lineWords[4].IndexOf(';')));
@@ -190,9 +192,9 @@ namespace dbcnet
                                     break;
                             }
                             break;
-                        case attdefstr:
+                        case STRATTDEF:
                             break;
-                        case attdftstr:
+                        case STRATTDFT:
                             switch (lineWords[1])
                             {
                                 case "\"BusType\"":
@@ -203,18 +205,46 @@ namespace dbcnet
                                     break;
                             }
                             break;
-                        case valstr:
-                            break;
-                        case valtabstr:
-                            break;
-                        case busstr:
-                            if (lineWords.Length > 1)
-                            if(lineWords[1] == ":")
+                        case STRVAL:        //VAL_ 4321 Value0 2 "Value2" 1 "Value1" 0 "Value0";VAL_ 4321 Value1 Numbers;
+                            if(lineWords.Length > 2)
                             {
-                                cluster.BaudRate = ulong.Parse(lineWords[2]);
+                                var id = uint.Parse(lineWords[1]);
+                                var sigName = lineWords[2];
+                                var msg1 = cluster.Messages.FirstOrDefault(m => m.Identifier == id);
+                                if(msg1 != null)
+                                {
+                                    var sig = msg1.Signals.FirstOrDefault(s => s.Name == sigName);
+                                    if( sig != null)
+                                    {
+                                        if(lineWords[3].EndsWith(";") && strtable.ContainsKey(lineWords[3].Remove(lineWords[3].Length -1)))
+                                        {
+                                            sig.Comment += strtable[lineWords[3].Remove(lineWords[3].Length -1)];
+                                        }
+                                        else
+                                        {
+                                            var valStartIndex = line.IndexOf(sigName) + sigName.Length + 1;
+                                            sig.Comment += line.Substring(valStartIndex ,line.Length - valStartIndex);
+                                        }
+                                    }
+                                }
                             }
                             break;
-                        case nodesstr:
+                        case STRVALTAB:     //VAL_TABLE_ Numbers 3 "Three" 2 "Two" 1 "One" 0 "Zero";
+                            if(lineWords.Length > 1)
+                            {
+                                var tableName = lineWords[1];
+                                var valStartIndex = line.IndexOf(tableName) + tableName.Length + 1;
+                                var tableVal = line.Substring(valStartIndex ,line.Length - valStartIndex);
+                                strtable.Add(tableName,tableVal);
+                            }
+                            break;
+                        case STRBUS:
+                            if(lineWords.Length > 1 && lineWords[1] == ":")
+                            {
+                                cluster.BaudRate = ulong.Parse(lineWords[2]) * 1000;
+                            }
+                            break;
+                        case STRNODES:
                             if(lineWords.Length >1)
                             {
                                 for (int j = 1; j < lineWords.Length - 1 ; j++)
