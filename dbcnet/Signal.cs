@@ -26,6 +26,8 @@ namespace dbcnet
 
         public string Unit { get; set; }
 
+        public string ValueDefinition { get; set; }
+
         public string Comment { get; set; }
 
         public override string ToString() => Name;

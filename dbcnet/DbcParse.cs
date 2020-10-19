@@ -266,12 +266,12 @@ namespace dbcnet
                                     {
                                         if(lineWords[3].EndsWith(";") && strtable.ContainsKey(lineWords[3].Remove(lineWords[3].Length -1)))
                                         {
-                                            sig.Comment += strtable[lineWords[3].Remove(lineWords[3].Length -1)];
+                                            sig.ValueDefinition = strtable[lineWords[3].Remove(lineWords[3].Length -1)];
                                         }
                                         else
                                         {
                                             var valStartIndex = line.IndexOf(sigName) + sigName.Length + 1;
-                                            sig.Comment += line.Substring(valStartIndex ,line.Length - valStartIndex);
+                                            sig.ValueDefinition = line.Substring(valStartIndex ,line.Length - valStartIndex);
                                         }
                                     }
                                 }

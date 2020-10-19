@@ -8,8 +8,8 @@ namespace demo
         static void Main(string[] args)
         {
             Console.WriteLine("Hello World!");
-            DbcParse.Parse(@"E:\WorkSpace\VS\dbcnet\docs\candb.dbc");
-            //DbcParse.Parse(@"C:\Users\Julles\Desktop\\xxx.dbc");
+            //DbcParse.Parse(@"E:\WorkSpace\VS\dbcnet\docs\candb.dbc");
+            DbcParse.Parse(@"C:\Users\julles\Desktop\\xxx.dbc");
         }
     }
 }
