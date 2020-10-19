@@ -9,7 +9,7 @@ namespace demo
         {
             Console.WriteLine("Hello World!");
             //DbcParse.Parse(@"E:\WorkSpace\VS\dbcnet\docs\candb.dbc");
-            DbcParse.Parse(@"C:\Users\julles\Desktop\\xxx.dbc");
+            DbcParse.Parse(@"C:\Users\minqi\Desktop\\xxx.dbc");
         }
     }
 }

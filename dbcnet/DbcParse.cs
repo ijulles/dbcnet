@@ -23,7 +23,7 @@ namespace dbcnet
         {
             var fs = new FileStream(fileName, FileMode.Open, FileAccess.Read, FileShare.ReadWrite);
             var sr = new StreamReader(fs);
-            var lines = sr.ReadToEnd().Split(new[] { '\n' }, StringSplitOptions.RemoveEmptyEntries);
+            var lines = sr.ReadToEnd().Split(new[] {'\r', '\n' }, StringSplitOptions.RemoveEmptyEntries);
             sr.Close();
             fs.Close();
 
