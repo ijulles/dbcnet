@@ -62,7 +62,7 @@ namespace dbcnet
                                 };
                                 cluster.Nodes.Add(node);
                             }
-                            node.MessagesTansmitted.Add(msg);
+                            node.MessagesTransmitted.Add(msg);
 
                             //识别消息Message下的信号Signal
                             //SG_ Signal0 : 0|32@1- (1,0) [0|0] "" Node1 Node2

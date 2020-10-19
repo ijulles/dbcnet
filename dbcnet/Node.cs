@@ -10,7 +10,7 @@ namespace dbcnet
 
         public IList<Message> MessagesReceived { get; set; } = new List<Message>();
 
-        public IList<Message> MessagesTansmitted { get; set; } = new List<Message>();
+        public IList<Message> MessagesTransmitted { get; set; } = new List<Message>();
 
         public string Comment { get; set; }
 
