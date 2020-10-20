@@ -12,11 +12,13 @@ namespace dbcnet
 
         public ulong FDBaudRate { get; set; }
 
-        public IList<Message> Messages { get; set; } = new List<Message>();
+        public List<Message> Messages { get; set; } = new List<Message>();
 
-        public IList<Node> Nodes { get; set; } = new List<Node>();
+        public List<Node> Nodes { get; set; } = new List<Node>();
 
         public IoMode IoMode { get; set; }
+
+        public AppProtocol AppProtocol { get; set; }
 
         public string Comment { get; set; }
 
@@ -28,5 +30,11 @@ namespace dbcnet
         CAN,
         CANFD,
         CANFDBRS
+    }
+
+    public enum AppProtocol
+    {
+        None,
+        J1939
     }
 }

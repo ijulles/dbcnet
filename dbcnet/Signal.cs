@@ -6,6 +6,10 @@ namespace dbcnet
     {
         public string Name { get; set; }
 
+        public SignalType SignalType { get; set; }
+
+        public int ModeValue { get; set; }
+
         public ByteOrder ByteOrder { get; set; }
 
         public DataType DataType { get; set; }
@@ -44,5 +48,12 @@ namespace dbcnet
         Signed,
         Unsigned,
         IEEEFloat
+    }
+
+    public enum SignalType
+    {
+        Static,
+        Multiplexer,
+        Multiplexed
     }
 }
