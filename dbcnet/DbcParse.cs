@@ -145,8 +145,14 @@ namespace dbcnet
                                 line = line.TrimEnd();
                                 while (line[line.Length - 1] != ';')
                                     line += lines[++i].TrimEnd();
-                                comment = line.Substring(line.IndexOf('\"') + 1, line.LastIndexOf('\"') - line.IndexOf('\"') - 1);
-                                cluster.Messages.First(m => m.Identifier == id).Signals.First(s => s.Name == name).Comment = comment;
+                                //TODO:右侧双引号可能不在本行中
+                                var length = line.LastIndexOf('\"') - line.IndexOf('\"') - 1;
+                                if(length > 0)
+                                {
+                                    comment = line.Substring(line.IndexOf('\"') + 1, line.LastIndexOf('\"') - line.IndexOf('\"') - 1);
+                                    cluster.Messages.First(m => m.Identifier == id).Signals.First(s => s.Name == name).Comment = comment;
+                                }
+
                             }
                             else if (lineWords[1] == STRMSG)
                             {
@@ -295,7 +301,7 @@ namespace dbcnet
                         case STRNODES:
                             if(lineWords.Length >1)
                             {
-                                for (int j = 1; j < lineWords.Length - 1 ; j++)
+                                for (int j = 1; j < lineWords.Length ; j++)
                                 {
                                     var nodeName1 = lineWords[j];
                                     var node1 = cluster.Nodes.FirstOrDefault(n => n.Name == nodeName1);
