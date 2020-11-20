@@ -37,7 +37,7 @@ namespace dbcnet
                 var line = lines[i];
                 var lineWords = line.Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
 
-                if (lineWords.Length > 0)
+                if (lineWords.Length > 1)
                 {
                     //识别消息Message和signal
                     //BO_ <CAN-ID> <MessageName>: <MessageLength> <SendingNode>
@@ -293,7 +293,7 @@ namespace dbcnet
                             }
                             break;
                         case STRBUS:
-                            if(lineWords.Length > 1 && lineWords[1] == ":")
+                            if(lineWords.Length > 2 && lineWords[1] == ":")
                             {
                                 cluster.BaudRate = ulong.Parse(lineWords[2]) * 1000;
                             }
